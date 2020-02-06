@@ -1,8 +1,8 @@
-import { Despesa } from './entity/despesa';
+import { Despesa } from '../entity/despesa';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class AppService {
+export class DespesaService {
   private despesas: Despesa[] = [];
 
   constructor() {
@@ -18,7 +18,6 @@ export class AppService {
   }
 
   getDespesas(): Despesa[] {
-    console.log(this.despesas);
     return this.despesas;
   }
 }
