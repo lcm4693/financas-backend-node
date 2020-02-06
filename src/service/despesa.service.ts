@@ -1,23 +1,20 @@
 import { Despesa } from '../entity/despesa';
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class DespesaService {
   private despesas: Despesa[] = [];
 
-  constructor() {
-    const despesa1 = new Despesa(1, 'Despesa 1 (backend)', new Date(2018, 9, 20), 1.8);
-    const despesa2 = new Despesa(2, 'Despesa 2 (backend)', new Date(2019, 12, 9), 3.5);
-    const despesa3 = new Despesa(3, 'Despesa 3 (backend)', new Date(2020, 1, 10), 12.8);
-    const despesa4 = new Despesa(4, 'Despesa 4 (backend)', new Date(2020, 4, 28), 234.0);
+  constructor(@InjectModel('Despesa') private readonly despesaModel: Model<Despesa>) {}
 
-    this.despesas.push(despesa1);
-    this.despesas.push(despesa2);
-    this.despesas.push(despesa3);
-    this.despesas.push(despesa4);
+  async getDespesas(): Promise<Despesa[]> {
+    return this.despesaModel.find().exec();
   }
 
-  getDespesas(): Despesa[] {
-    return this.despesas;
+  async save(despesaParam: Despesa): Promise<Despesa> {
+    const despesaManaged = new this.despesaModel(despesaParam);
+    return despesaManaged.save();
   }
 }
