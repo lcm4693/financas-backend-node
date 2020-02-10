@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [DespesaModule, MongooseModule.forRoot('mongodb://localhost/nest')],
+  imports: [DespesaModule, MongooseModule.forRoot('mongodb://localhost/financas')],
   controllers: [],
   providers: [],
 })
