@@ -1,6 +1,6 @@
 export class Despesa {
   constructor(
-    public id: number,
+    public _id: string,
     public descricao: string,
     public data: Date,
     public valor: number,

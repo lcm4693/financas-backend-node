@@ -13,8 +13,17 @@ export class DespesaService {
     return this.despesaModel.find().exec();
   }
 
+  async deletarDespesa(despesa: Despesa) {
+    const objetoJaExiste = await this.verificarExistenciaObjeto(despesa);
+    if (objetoJaExiste === true) {
+      const retorno = await this.despesaModel.deleteOne({ _id: despesa._id }).exec();
+    } else {
+      throw new HttpException('Despesa não encontrada na base de dados', 403);
+    }
+  }
+
   async verificarExistenciaObjeto(despesa: Despesa): Promise<boolean> {
-    const objeto = await this.despesaModel.findOne({ id: despesa.id }).exec();
+    const objeto: Despesa = await this.despesaModel.findOne(despesa).exec();
     if (objeto) {
       return true;
     } else {
@@ -23,10 +32,11 @@ export class DespesaService {
   }
 
   async save(despesaParam: Despesa): Promise<Despesa> {
-    const objetoJaExiste = await this.verificarExistenciaObjeto(despesaParam);
-    if (objetoJaExiste === true) {
-      throw new HttpException('Esse cara ja existe', 403);
-    }
+    // const objetoJaExiste = await this.verificarExistenciaObjeto(despesaParam);
+    // if (objetoJaExiste === true) {
+    //   throw new HttpException('Esse cara ja existe', 403);
+    // }
+
     const despesaManaged = new this.despesaModel(despesaParam);
     return despesaManaged.save();
   }

@@ -19,8 +19,13 @@ export class DespesaController {
 
   @Post('/incluirDespesa')
   saveDespesa(@Body() parametros: Despesa): Promise<Despesa> {
-    const despesa = new Despesa(parametros.id, parametros.descricao, new Date(), parametros.valor);
+    const despesa = new Despesa(parametros._id, parametros.descricao, new Date(), parametros.valor);
     return this.despesaService.save(despesa);
+  }
+
+  @Post('/apagarDespesa')
+  apagar(@Body() despesa: Despesa): void {
+    this.despesaService.deletarDespesa(despesa);
   }
 
   @Get('/retornaDespesas')
